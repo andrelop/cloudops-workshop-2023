@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+spec:
+  selector:
+    matchLabels:
+      app: hello-world
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: hello-world
+        release: {{ .Release.Name }}
+      annotations:
+        sidecar.istio.io/inject: "true"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+      terminationGracePeriodSeconds: 180
+      containers:
+        - name: hello-kubernetes
+          image: "paulbouwer/hello-kubernetes:1.10"
+
+          imagePullPolicy: Always
+          ports:
+            - name: deployment-port
+              containerPort: 8080
+          resources:
+            limits:
+              cpu: {{ .Values.pods.resources.limits.cpu }}
+              memory: {{ .Values.pods.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.pods.resources.requests.cpu }}
+              memory: {{ .Values.pods.resources.requests.memory }}
