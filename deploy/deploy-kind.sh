@@ -57,5 +57,6 @@ echo "istiod installed."
 helm install istio-gateway istio/gateway --version=1.18.2 -n istio-system
 echo "Waiting until istio-gateway is fully installed ..."
 kubectl wait -n istio-system --for=condition=ready pod --selector=app=istio-gateway --timeout=90s
+kbectl apply -f .. 
 echo "istio-gateway installed."
 
