@@ -6,7 +6,7 @@ spec:
   hosts:
   - hello.example.com
   gateways:
-  - app-gateway-istio-gateway
+  - istio-gateway.istio-system
   http:
   - name: "Hello World route mapping"
     match:
